@@ -1,0 +1,53 @@
+{% extends "main/base.html" %}{# 他のテンプレートを継承するために必要なテンプレートタグ #}
+{% load static %}{# 静的ファイルを読み込むために必要なテンプレートタグ #}
+
+{% block extra_style %}{# talk_room.html専用のCSSを追加 #}
+<link rel="stylesheet" href="{% static 'main/css/talk_room.css' %}">
+{% endblock %}
+
+{% block header_title %}{# ヘッダータイトルを追加 #}
+{{ friend.username }}{# フレンド名 #}
+{% endblock %}
+
+{% block talk_room %}{# 戻るボタンと更新ボタンを追加 #}
+<a href="{% url 'friends' %}" class="back-button"><i class="fas fa-angle-left"></i></a>
+<a href="" class="reload-button">更新</a>
+{% endblock %}
+
+{% block content %}{# talk_roomページのメイン要素を追加 #}
+<div class="talk-room">{# 箱 #}
+    <ul class="chatboard">{# 箇条書き #}
+        {% for talk in talks %}{# 繰り返し #}
+        <li class="chatboard__item">{# リストアイテム #}
+            {% if talk.sender.username == friend.username %}
+                <p class="chatboard__username">
+                    ＞{{ talk.sender.username }}{# 送信者 #}
+                </p>
+                <p class="chatboard__message">
+                    {{ talk.message }}{# メッセージ #}
+                </p>
+            {% else %}
+                <p class="chatboard__username_me">
+                    ＞{{ talk.sender.username }}{# 送信者 #}
+                </p>
+                <p class="chatboard__message_me">
+                    {{ talk.message }}{# メッセージ #}
+                </p>
+            {% endif %}
+            <p class="chatboard__time">
+                {{ talk.time|date:"m/d" }}</br>{# 送信月日 #}
+                {{ talk.time|date:"H:i" }}{# 送信時刻 #}
+            </p>
+        </li>
+        {% endfor %}
+    </ul>
+    <form action="{% url 'talk_room' friend.id %}" method="POST" class="message-form">
+        {% csrf_token %}
+        {{ form.message }}
+        <button type="submit" class="message-form__submit">送信</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block footer %}{# フッター不要のため、空白で上書き #}
+{% endblock %}

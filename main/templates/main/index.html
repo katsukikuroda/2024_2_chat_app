@@ -1,0 +1,19 @@
+{% extends "main/base.html" %}{# 継承するベーステンプレートを指定 #}
+{% load static %}
+
+{% block extra_style %}{# index.html専用のCSSを追加 #}
+<link rel="stylesheet" href="{% static 'main/css/index.css' %}">
+{% endblock %}
+
+{% block header %}{# ヘッダー不要のため、空白で上書き #}
+{% endblock %}
+
+{% block content %}{# indexページのメイン要素を追加 #}
+<div class="buttons">
+    <a href="{% url 'login' %}" class="button">ログイン</a>
+    <a href="{% url 'signup' %}" class="button">会員登録</a>
+</div>
+{% endblock %}
+
+{% block footer %}{# フッター不要のため、空白で上書き #}
+{% endblock %}

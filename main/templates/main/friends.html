@@ -1,0 +1,55 @@
+{% extends "main/base.html" %}
+{% load static chat_app %}{# chat_app を追加 #}
+
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'main/css/friends.css' %}">
+{% endblock %}
+
+{% block header_title %}
+フレンド一覧ページ
+{% endblock %}
+
+{% block content %}
+<div class="friends">
+    {# フォームを追加する #}
+    <form method="GET" class="search-form">
+        <i class="fas fa-search"></i>
+        {{ form.keyword }}
+        <button type="submit" class="search-form__submit">検索</button>
+    </form>
+
+    {# 友達のリスト表示部分 #}
+    <ul class="friends-list">
+        {% for friend in friends %}
+        <li class="friends-list__item">
+            <a href="{% url 'talk_room' friend.id %}" class="friends-list__link">
+                {# ↓アイコン追加機能の回でimg要素追加 #}
+                <img src="{% if friend.icon %}{{ friend.icon.url }}{% else %}{% static 'main/img/default-icon.png' %}{% endif %}" class="friends-list__icon">
+                {# ↑ #}
+                <div class="friends-list__username">
+                    {{ friend.username }}<br>
+                    {% elapsed_time friend.last_talk_time %}
+                </div>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    {# ↓クラスベースビューの回で追加→ユーザー検索機能の回で変更 #}
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+            <a href="{% url 'friends' %}?keyword={{ keyword }}&page=1">&laquo; 先頭へ</a>
+            <a href="{% url 'friends' %}?keyword={{ keyword }}&page={{ page_obj.previous_page_number }}">前へ</a>
+            {% endif %}
+    
+            <span class="current">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+    
+            {% if page_obj.has_next %}
+            <a href="{% url 'friends' %}?keyword={{ keyword }}&page={{ page_obj.next_page_number }}">次へ</a>
+            <a href="{% url 'friends' %}?keyword={{ keyword }}&page={{ page_obj.paginator.num_pages }}">最後へ &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+</div>
+{% endblock %}

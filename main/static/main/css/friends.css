@@ -1,0 +1,43 @@
+.friends {
+    padding: 64px 0;
+}
+.friends-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.friends-list__item {
+    border-bottom: 1px solid #888;
+}
+/* 初めの要素にだけ上にも枠線を引く */
+.friends-list__item:first-child {
+    border-top: 1px solid #888;
+}
+.friends-list__username {
+    font-size: 1.2rem;
+}
+
+.friends-list__link {
+    display: flex; /* アイコン追加機能の回でblock→flexに変更 */
+    padding: 8px 16px;
+    height: 64px;
+}
+
+/* ↓アイコン追加機能の回で追加 */
+.friends-list__icon {
+    width: 60px;
+    height: 60px;
+    border: 1px solid #003;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* ↓クラスベースビューの回で追加 */
+.pagination {
+    text-align: center;
+}
+.pagination a {
+    text-decoration: underline;
+}
+
+
